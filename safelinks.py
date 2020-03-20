@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 #
 # 20191221 Ewald
 # descramble Microsoft ATP Safe Links
@@ -15,13 +15,19 @@ buf.write("\n")
 if len(sys.argv) < 2:
     for url in fileinput.input():
         url.rstrip()
+        buf.truncate(0)
         if url.lower().startswith("http"):
             target = parse_qs(urlparse(url).query)['url'][0]
+#            print(target)
             p = urlparse(target)
-            q = p._replace(path=path.join(path.dirname(path.dirname(p.path)), path.basename(p.path)))
-            z = urlunparse(q)
-            buf.write("%s\n" % z)
-    print(buf.getvalue())
+#            print(p)
+#            q = p._replace(path=path.join(path.dirname(path.dirname(p.path)), path.basename(p.path)))
+#            print(q)
+#            z = urlunparse(q)
+            z = urlunparse(p)
+#           buf.write("%s\n" % z)
+            buf.write("%s" % z)
+            print(buf.getvalue())
 
 if len(sys.argv) > 2:
     print("Please only one Safe Link at a time, or switch to STDIN mode")
